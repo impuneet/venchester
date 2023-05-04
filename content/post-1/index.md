@@ -3,6 +3,7 @@ path: "/design-pattern-in-javascript/"
 slug: "/design-pattern-in-javascript/"
 template: "post"
 category: "design-pattern"
+categories: "design-pattern"
 tags: ["javascript", "design-pattern" , "nodejs"]
 title: "Design Patterns in JavaScript, Part 1"
 date: "2018-11-24T00:00:00.000Z"
