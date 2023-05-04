@@ -86,7 +86,7 @@ const createPages = async ({ graphql, actions }) => {
       path: post.node.frontmatter.path,
       component: pagePage,
       context: {
-        slug: page.node.fields.slug,
+        slug: post.node.frontmatter.path,
       },
     })
   })
