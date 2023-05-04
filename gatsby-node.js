@@ -30,9 +30,9 @@ const createPages = async ({ graphql, actions }) => {
               id
               frontmatter {
                 title
-                path
                 tags
                 category
+                path
                 template
               }
             }
@@ -60,11 +60,17 @@ const createPages = async ({ graphql, actions }) => {
     const previous = i === posts.length - 1 ? null : posts[i + 1].node
     const next = i === 0 ? null : posts[i - 1].node
 
+    if (post.node.frontmatter.tags) {
+      post.node.frontmatter.tags.forEach((tag) => {
+        tagSet.add(tag)
+      })
+    }
+
     createPage({
-      path: post.node.fields.path,
+      path: post.node.frontmatter.path,
       component: blogPage,
       context: {
-        slug: post.node.fields.path,
+        slug: post.node.frontmatter.path,
         previous,
         next,
       },
@@ -77,10 +83,10 @@ const createPages = async ({ graphql, actions }) => {
 
   pages.forEach((page) => {
     createPage({
-      path: page.node.fields.path,
+      path: post.node.frontmatter.path,
       component: pagePage,
       context: {
-        slug: page.node.fields.path,
+        slug: page.node.fields.slug,
       },
     })
   })
@@ -100,6 +106,8 @@ const createPages = async ({ graphql, actions }) => {
     })
   })
 
+}
+
 const createNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
@@ -107,18 +115,18 @@ const createNode = ({ node, actions, getNode }) => {
   // Slugs
   // =====================================================================================
 
- let slug
-if (node.internal.type === 'MarkdownRemark') {
+  let slug
+  if (node.internal.type === 'MarkdownRemark') {
+
     const value = createFilePath({ node, getNode });
-     const fileNode = getNode(node.parent)
-    const parsedFilePath = path.parse(fileNode.relativePath)
+
 
     createNodeField({
       name: 'slug',
       node,
       value,
-    });
- }
+    })
+  }
 }
 
 exports.createPages = createPages
