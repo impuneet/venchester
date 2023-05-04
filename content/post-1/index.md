@@ -1,5 +1,6 @@
 ---
 path: "/design-pattern-in-javascript/"
+slug: "/design-pattern-in-javascript/"
 template: "post"
 category: "design-pattern"
 tags: ["javascript", "design-pattern" , "nodejs"]
