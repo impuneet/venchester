@@ -107,7 +107,7 @@ const createNode = ({ node, actions, getNode }) => {
   // Slugs
   // =====================================================================================
 
-  let slug
+ let slug
 if (node.internal.type === 'MarkdownRemark') {
     const value = createFilePath({ node, getNode });
      const fileNode = getNode(node.parent)
@@ -118,6 +118,7 @@ if (node.internal.type === 'MarkdownRemark') {
       node,
       value,
     });
+ }
 }
 
 exports.createPages = createPages
