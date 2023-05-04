@@ -118,7 +118,15 @@ const createNode = ({ node, actions, getNode }) => {
   let slug
   if (node.internal.type === 'MarkdownRemark') {
 
-    const value = createFilePath({ node, getNode });
+        const fileNode = getNode(node.parent)
+    const parsedFilePath = path.parse(fileNode.relativePath)
+
+    if (Object.prototype.hasOwnProperty.call(node.frontmatter, 'slug')) {
+      slug = `/${node.frontmatter.slug}/`
+    } else {
+      slug = `/${parsedFilePath.dir}/`
+    }
+
 
 
     createNodeField({
