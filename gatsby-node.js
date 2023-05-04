@@ -33,6 +33,7 @@ const createPages = async ({ graphql, actions }) => {
                 tags
                 category
                 path
+                template
               }
             }
           }
