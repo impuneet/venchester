@@ -132,7 +132,7 @@ const createNode = ({ node, actions, getNode }) => {
     createNodeField({
       name: 'slug',
       node,
-      value,
+      value: slug,
     })
   }
 }
