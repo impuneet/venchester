@@ -30,12 +30,10 @@ const createPages = async ({ graphql, actions }) => {
               id
               frontmatter {
                 title
+                path
                 tags
-                categories
+                category
                 template
-              }
-              fields {
-                slug
               }
             }
           }
@@ -62,23 +60,11 @@ const createPages = async ({ graphql, actions }) => {
     const previous = i === posts.length - 1 ? null : posts[i + 1].node
     const next = i === 0 ? null : posts[i - 1].node
 
-    if (post.node.frontmatter.tags) {
-      post.node.frontmatter.tags.forEach((tag) => {
-        tagSet.add(tag)
-      })
-    }
-
-    if (post.node.frontmatter.categories) {
-      post.node.frontmatter.categories.forEach((category) => {
-        categorySet.add(category)
-      })
-    }
-
     createPage({
-      path: post.node.fields.slug,
+      path: post.node.fields.path,
       component: blogPage,
       context: {
-        slug: post.node.fields.slug,
+        slug: post.node.fields.path,
         previous,
         next,
       },
@@ -91,10 +77,10 @@ const createPages = async ({ graphql, actions }) => {
 
   pages.forEach((page) => {
     createPage({
-      path: page.node.fields.slug,
+      path: page.node.fields.path,
       component: pagePage,
       context: {
-        slug: page.node.fields.slug,
+        slug: page.node.fields.path,
       },
     })
   })
@@ -114,22 +100,6 @@ const createPages = async ({ graphql, actions }) => {
     })
   })
 
-  // =====================================================================================
-  // Categories
-  // =====================================================================================
-
-  const categoryList = Array.from(categorySet)
-  categoryList.forEach((category) => {
-    createPage({
-      path: `/categories/${slugify(category)}/`,
-      component: categoryPage,
-      context: {
-        category,
-      },
-    })
-  })
-}
-
 const createNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
@@ -138,22 +108,16 @@ const createNode = ({ node, actions, getNode }) => {
   // =====================================================================================
 
   let slug
-  if (node.internal.type === 'MarkdownRemark') {
-    const fileNode = getNode(node.parent)
+if (node.internal.type === 'MarkdownRemark') {
+    const value = createFilePath({ node, getNode });
+     const fileNode = getNode(node.parent)
     const parsedFilePath = path.parse(fileNode.relativePath)
-
-    if (Object.prototype.hasOwnProperty.call(node.frontmatter, 'slug')) {
-      slug = `/${node.frontmatter.slug}/`
-    } else {
-      slug = `/${parsedFilePath.dir}/`
-    }
 
     createNodeField({
       name: 'slug',
       node,
-      value: slug,
-    })
-  }
+      value,
+    });
 }
 
 exports.createPages = createPages
