@@ -34,6 +34,7 @@ const createPages = async ({ graphql, actions }) => {
                 category
                 path
                 template
+                slug
               }
             }
           }
