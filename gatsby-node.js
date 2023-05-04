@@ -121,8 +121,8 @@ const createNode = ({ node, actions, getNode }) => {
         const fileNode = getNode(node.parent)
     const parsedFilePath = path.parse(fileNode.relativePath)
 
-    if (Object.prototype.hasOwnProperty.call(node.frontmatter, 'slug')) {
-      slug = `/${node.frontmatter.slug}/`
+    if (Object.prototype.hasOwnProperty.call(node.frontmatter, 'path')) {
+      slug = `/${node.frontmatter.path}/`
     } else {
       slug = `/${parsedFilePath.dir}/`
     }
